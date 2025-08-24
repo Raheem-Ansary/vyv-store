@@ -16,11 +16,12 @@
           buildInputs = [
             pkgs.python312
             pkgs.python312Packages.virtualenv
+            (pkgs.poetry.override { python3 = pkgs.python312; })
           ];
 
           shellHook = ''
-            echo "📦 vyv-store dev environment ready!"
-            echo "💡 Run 'poetry run python manage.py runserver' for development"
+            echo "vyv-store dev environment ready!"
+            echo "Run 'poetry run python manage.py runserver' for development"
           '';
         };
 

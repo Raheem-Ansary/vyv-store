@@ -1,56 +1,112 @@
-vVyana-store · Django 4.2
+#  vyv-store (Development Environment with Poetry + Nix Flakes)
 
-پروژهٔ بک‌اند فروشگاهی با Django برای نمایش مهارت‌ها: URLهای تمیز و امن، OTP پیامکی با کاوه‌نگار، پرداخت زرین‌پال (کد آماده)، ذخیره‌سازی S3-Compatible (ArvanCloud)، و پردازش پس‌زمینه با Celery + RabbitMQ + Celery Beat.
+This repository is a fork of the original [vyv-store](link-to-original),  
+with a modernized and reproducible **development environment** powered by **Poetry** and **Nix Flakes**.  
 
- ویژگی‌ها
-- **URLهای تمیز و امن**: namespace + reverse + UUID + تنظیمات امن تولید
-- **OTP (Kavenegar)**: ثبت‌نام/ورود با کد یک‌بارمصرف + expire + rate limit
-_پرداخت (Zarinpal): درخواست/بازگشت/تأیید با feature flag (sandbox-ready)
-- ذخیره‌سازی (S3/ArvanCloud): آپلود مدیا با `django-storages[boto3]`
-- پس‌زمینه: Celery worker + RabbitMQ broker + Celery Beat برای زمان‌بندی
+The goal is to make onboarding seamless for any developer, regardless of OS or setup.
+
+---
+
+## Features
+- Cross-platform development setup: **Linux**, **macOS**, **Windows (WSL2/DevContainers)**
+- Dependency management with [Poetry](https://python-poetry.org/)
+- Reproducible environment with [Nix Flakes](https://nixos.wiki/wiki/Flakes)
+- Build a **Docker image** for the project without a Dockerfile
+- Works with **Python 3.12**
+
+---
+
+##  Setup Instructions
+
+###  Option 1: Using Poetry (classic way)
+1. Install **Poetry**  
+   - **Linux/macOS**:
+     ```bash
+     curl -sSL https://install.python-poetry.org | python3 -
+     ```
+   - **Windows (PowerShell)**:
+     ```powershell
+     (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+     ```
+
+2. Ensure you have **Python 3.12** installed:  
+   - Ubuntu:
+     ```bash
+     sudo apt install python3.12 python3.12-venv python3.12-dev
+     poetry env use python3.12
+     ```
+
+3. Install dependencies:
+   ```bash
+   poetry install
+
+4. Run the development server:
+   
+   ```
+    poetry run python manage.py runserver
+
+    ```
+
+Option 2: Using Nix Flakes (recommended for Nix users)
+
+1. Enable Flakes in Nix:
 
 
-## 🚀 شروع سریع (Local)
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+```mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+
+```
+2. Enter the development environment:
+   
+```
+   nix develop
+
+```
+
+3. Run the development server:
+  
+```
+   poetry run python manage.py runserver
+
+```
+
+
+Option 3: Build Docker Image with Nix
+
+Build a Docker image without writing a Dockerfile:
+
+```
+    nix build .#dockerImage
+
+```
+
+Load and run the image:
+
+```
+  docker load < result
+  docker run -p 8000:8000 vyv-store:latest
+
+```
+
+
+Supported Platforms
+
+Linux (tested on Ubuntu 22.04)
+
+macOS (tested on macOS 14, Apple Silicon)
+
+Windows (via WSL2 or DevContainers)
+
+
+
+
+🤝 Contributing
+
+Pull requests and issues are welcome! 
 
 
 
 
 
 
-DEBUG=True
-SECRET_KEY=change-me
-ALLOWED_HOSTS=127.0.0.1,localhost
-DATABASE_URL=postgres://user:pass@localhost:5432/{{db_name}}
 
-# OTP (Kavenegar)
-KAVENEGAR_API_KEY=
-KAVENEGAR_OTP_TEMPLATE=otp
-OTP_EXP_MINUTES=2
-OTP_RATE_LIMIT_PER_IP=5
-
-# Zarinpal
-ZARINPAL_ENABLED=False
-ZARINPAL_MERCHANT_ID=
-ZARINPAL_CALLBACK_URL=https://your-domain.com/payment/verify/
-
-# Celery / RabbitMQ
-CELERY_BROKER_URL=amqp://guest:guest@localhost:5672//
-CELERY_RESULT_BACKEND=rpc://
-CELERY_TIMEZONE=Asia/Tehran
-
-# S3-Compatible (ArvanCloud)
-USE_S3=True
-AWS_ACCESS_KEY_ID=![Screenshot 2025-08-23 at 19 42 04](https://github.com/user-attachments/assets/c8750296-4567-4c96-a5f9-eaaad7acce73)
-
-AWS_SECRET_ACCESS_KEY=
-AWS_STORAGE_BUCKET_NAME={{bucket}}
-AWS_S3_REGION_NAME=ir-any
-AWS_S3_ENDPOINT_URL=https://s3.ir-thr-at1.arvanstorage.com
-AWS_S3_CUSTOM_DOMAIN=
