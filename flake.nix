@@ -21,6 +21,12 @@
 
           shellHook = ''
             echo "vyv-store dev environment ready!"
+
+            if [ ! -d ".venv" ]; then
+            echo "Installing Python dependencies with Poetry..."
+            poetry install
+            fi
+
             echo "Run 'poetry run python manage.py runserver' for development"
           '';
         };
