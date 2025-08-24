@@ -1,6 +1,6 @@
 #  vyv-store (Development Environment with Poetry + Nix Flakes)
 
-This repository is a fork of the original [vyv-store](link-to-original),  
+This repository is a fork of the original [vyv-store](https://github.com/viana-alipanahifard/vyv-store),  
 with a modernized and reproducible **development environment** powered by **Poetry** and **Nix Flakes**.  
 
 The goal is to make onboarding seamless for any developer, regardless of OS or setup.
