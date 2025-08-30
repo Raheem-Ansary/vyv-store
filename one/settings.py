@@ -83,25 +83,35 @@ WSGI_APPLICATION = 'one.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'viana',
-        'PASSWORD':'viana',
-        'HOST': '127.0.0.1',
-        'PORT':  '5432',
-        "OPTIONS": {"options": "-c search_path=store,public"},
-
-            }
-}
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase', 
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'viana',
+#         'PASSWORD':'viana',
+#         'HOST': '127.0.0.1',
+#         'PORT':  '5432',
+#         "OPTIONS": {"options": "-c search_path=store,public"},
+
+#             }
+# }
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+
+#     }
+# }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
